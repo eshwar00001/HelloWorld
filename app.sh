@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -x
-
+echo "hello"
 PORT=${PORT:-8080}
 SSL_PORT=${SSL_PORT:-8443}
 
