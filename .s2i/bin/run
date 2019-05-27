@@ -1,0 +1,2 @@
+echo "Fixing the mess:"
+chmod 755 /opt/app-root/src/app.sh
