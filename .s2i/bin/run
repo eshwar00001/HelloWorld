@@ -1,4 +1,0 @@
-echo "hello:"
-whoami
-su root 
-yum localinstall oracle* --nogpgcheck 
