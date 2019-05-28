@@ -1,2 +1,4 @@
 echo "hello:"
-yum localinstall oracle* --nogpgcheck << Y
+whoami
+su root 
+yum localinstall oracle* --nogpgcheck 
