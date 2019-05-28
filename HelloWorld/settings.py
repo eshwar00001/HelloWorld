@@ -25,7 +25,7 @@ SECRET_KEY = 'hdc=yz8nnq(c7yp%26tf70v0egjekmo*eb^!%3-rjw#&5xxs$-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['test1-test.2886795415-80-simba02.environments.katacoda.com']
 
 
 # Application definition
