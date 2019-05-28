@@ -1,4 +1,0 @@
-#!/bin/bash
-echo "Fixing the mess:"
-/opt/app-root/src/app.sh
-#chmod 755 /opt/app-root/src/app.sh
