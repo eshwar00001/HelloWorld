@@ -1,0 +1,76 @@
+npm install pdf-lib
+npm install vue-pdf
+
+import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { pdfjs, Document, Page } from 'vue-pdf';
+
+async function createTemplate() {
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage();
+
+  const form = page.createWidgetAnnotation({
+    type: 'Widget',
+    subtype: 'Form',
+    rect: [50, 500, 250, 550],
+    fieldName: 'myField',
+  });
+
+  const textFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  form.setDefaultAppearance(textFont, 14, '0 0 0');
+
+  form.setFlags(4, true);
+  form.setFlags(0, false);
+
+  pdfDoc.addPage();
+  const pdfBytes = await pdfDoc.save();
+  return pdfBytes;
+}
+
+
+<template>
+  <div>
+    <Document :file="pdfBytes">
+      <Page>
+        <div v-if="pdfLoaded">
+          <div v-for="field in formFields">
+            <input :name="field.name" v-model="field.value" />
+          </div>
+        </div>
+      </Page>
+    </Document>
+    <button @click="savePdf()">Save PDF</button>
+  </div>
+</template>
+
+<script>
+import { PDFDocument } from 'pdf-lib';
+
+export default {
+  name: 'EditablePdf',
+  data() {
+    return {
+      pdfLoaded: false,
+      pdfBytes: null,
+      formFields: [
+        { name: 'myField', value: '' },
+      ],
+    };
+  },
+  async created() {
+    this.pdfBytes = await createTemplate();
+    this.pdfLoaded = true;
+  },
+  methods: {
+    async savePdf() {
+      const pdfDoc = await PDFDocument.load(this.pdfBytes);
+      this.formFields.forEach((field) => {
+        const form = pdfDoc.getForm();
+        form.getTextField(field.name).setValue(field.value);
+      });
+
+      const pdfBytes = await pdfDoc.save();
+      // You can now save the pdfBytes to a file or upload it to a server.
+    },
+  },
+};
+</script>
